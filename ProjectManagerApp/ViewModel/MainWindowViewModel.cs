@@ -12,10 +12,16 @@ namespace ProjectManagerApp.ViewModel
 {
     internal class MainWindowViewModel : ViewModelBase
     {
+        private string _title = "Менеджер проектов";
         private readonly ProjectRepository _projectRepository;
         private ObservableCollection<Project> _projects;
         private Project _selectedProject;
 
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
         public ObservableCollection<Project> Projects
         {
             get => _projects;
@@ -50,7 +56,7 @@ namespace ProjectManagerApp.ViewModel
         {
             if (SelectedProject != null)
             {
-                await _projectRepository.Delete(SelectedProject.ProjectId);
+                await _projectRepository.Delete(SelectedProject.Id);
                 await LoadPoject();
                 MessageBox.Show("Проект удален!",
                     "Успешно",

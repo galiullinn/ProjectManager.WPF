@@ -8,7 +8,7 @@ namespace ProjectManagerApp.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<TaskProject> builder)
         {
-            builder.HasKey(t => t.TaskProjectId);
+            builder.HasKey(t => t.Id);
 
             builder
                 .HasOne(t => t.AssignedUser)

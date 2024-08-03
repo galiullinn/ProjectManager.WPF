@@ -1,21 +1,17 @@
-﻿namespace ProjectManagerApp.Model
+﻿using ProjectManagerApp.Model.Base;
+
+namespace ProjectManagerApp.Model
 {
-    internal class Report
+    internal class Report : Entity
     {
-        public int ReportId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public DateTime DateCreate { get; set; } = DateTime.Now;
 
         public int ProjectId { get; set; }
-        public Project? Project { get; set; }
+        public Project Project { get; set; } 
 
-        public Report(string title, string content, int projectId)
-        {
-            Title = title;
-            Content = content;
-            DateCreate = DateTime.Now;
-            ProjectId = projectId;
-        }
+
+        public override string ToString() => $"Отчет {Title} для проекта {Project.Name}";
     }
 }

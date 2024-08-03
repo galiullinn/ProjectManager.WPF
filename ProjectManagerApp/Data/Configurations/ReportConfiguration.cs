@@ -8,7 +8,7 @@ namespace ProjectManagerApp.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Report> builder)
         {
-            builder.HasKey(r => r.ReportId);
+            builder.HasKey(r => r.Id);
 
             builder
                 .HasOne(r => r.Project)

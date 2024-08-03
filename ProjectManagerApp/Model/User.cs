@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectManagerApp.Model.Base;
 
 namespace ProjectManagerApp.Model
 {
-    internal class User
+    internal class User : Entity
     {
-        public int UserId { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -20,13 +20,6 @@ namespace ProjectManagerApp.Model
 
         public string FullName { get { return $"{FirstName} {LastName}"; } }
 
-        public User(string firstName, string lastName, string email, string phone, Position position)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Phone = phone;
-            Position = position;
-        }
+        public override string ToString() => $"Пользователь {FullName} | {Position}";
     }
 }

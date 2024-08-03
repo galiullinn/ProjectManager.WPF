@@ -8,7 +8,7 @@ namespace ProjectManagerApp.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
-            builder.HasKey(p => p.CommentId);
+            builder.HasKey(p => p.Id);
 
             builder
                 .HasOne(r => r.TaskProject)

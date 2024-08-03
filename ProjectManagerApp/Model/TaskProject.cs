@@ -1,8 +1,9 @@
-﻿namespace ProjectManagerApp.Model
+﻿using ProjectManagerApp.Model.Base;
+
+namespace ProjectManagerApp.Model
 {
-    internal class TaskProject
+    internal class TaskProject : Entity
     {
-        public int TaskProjectId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; } = DateTime.Now;
@@ -10,21 +11,12 @@
         public StatusTask Status { get; set; }
 
         public int ProjectId { get; set; }
-        public Project? Project { get; set; }
+        public Project Project { get; set; }
 
         public int AssignedUserId { get; set; }
-        public User? AssignedUser { get; set; }
+        public User AssignedUser { get; set; }
         public List<Comment>? Comments { get; set; } = [];
 
-        public TaskProject(string name, string description, DateTime startDate,  DateTime endDate, int projectId, int assignedUserId)
-        {
-            Name = name;
-            Description = description;
-            StartDate = startDate;
-            EndDate = endDate;
-            Status = StatusTask.InProgress;
-            ProjectId = projectId;
-            AssignedUserId = assignedUserId;
-        }
+        public override string ToString() => $"Задача {Name} для проекта {Project.Name}";
     }
 }

@@ -8,7 +8,7 @@ namespace ProjectManagerApp.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Project> builder)
         {
-            builder.HasKey(p => p.ProjectId);
+            builder.HasKey(p => p.Id);
 
             builder
                 .Property(p => p.Status)
