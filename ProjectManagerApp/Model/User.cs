@@ -20,6 +20,6 @@ namespace ProjectManagerApp.Model
 
         public string FullName { get { return $"{FirstName} {LastName}"; } }
 
-        public override string ToString() => $"Пользователь {FullName} | {Position}";
+        public override string ToString() => $"{FullName} | {Position}";
     }
 }

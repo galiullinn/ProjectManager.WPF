@@ -17,6 +17,6 @@ namespace ProjectManagerApp.Model
         public User AssignedUser { get; set; }
         public List<Comment>? Comments { get; set; } = [];
 
-        public override string ToString() => $"Задача {Name} для проекта {Project.Name}";
+        public override string ToString() => $"Задача {Name}";
     }
 }

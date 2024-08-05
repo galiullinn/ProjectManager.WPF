@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:ProjectManagerApp.ViewModel"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
-        Title="Менеджер проектов" 
+        Title="{Binding Title}" 
         Height="600" 
         Width="800"
         ResizeMode="NoResize">
@@ -15,114 +15,223 @@
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
+        <TabControl>
+            <TabItem Header="Проекты">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0"
+                          Background="AliceBlue">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left"
+                                        Margin="10 5 10 5">
+                                <Button BorderBrush="AliceBlue"
+                                        Cursor="Hand"
+                                        Background="AliceBlue"
+                                        Width="70"
+                                        Height="60"
+                                        Command="{Binding OpenAddProjectWindowCommand}">
+                                    <StackPanel Margin="5">
+                                        <fa:ImageAwesome Icon="Solid_Plus"
+                                                         Height="15"
+                                                         Margin="0 0 0 5"/>
+                                    <TextBlock Text="Добавить"
+                                               HorizontalAlignment="Center"
+                                               FontSize="10"/>
+                                </StackPanel>
+                                </Button>
+                                <Button BorderBrush="AliceBlue"
+                                        Cursor="Hand"
+                                        Background="AliceBlue"
+                                        Width="85"
+                                        Height="60"
+                                        Command="{Binding OpenEditProjectWindowCommand}">
+                                    <StackPanel Margin="5">
+                                        <fa:ImageAwesome Icon="Solid_Edit"
+                                                         Height="15"
+                                                         Margin="0 0 0 5"/>
+                                    <TextBlock Text="Редактировать"
+                                               HorizontalAlignment="Center"
+                                               FontSize="10"/>
+                                </StackPanel>
+                                </Button>
+                                <Button BorderBrush="AliceBlue"
+                                        Cursor="Hand"
+                                        Background="AliceBlue"
+                                        Width="70"
+                                        Height="60"
+                                        Command="{Binding DeleteProjectCommand}">
+                                    <StackPanel Margin="5">
+                                        <fa:ImageAwesome Icon="Solid_Trash"
+                                                         Height="15"
+                                                         Margin="0 0 0 5"/>
+                                    <TextBlock Text="Удалить"
+                                               HorizontalAlignment="Center"
+                                               FontSize="10"/>
+                                </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Margin="10 5 10 5">
+                            <Button BorderBrush="AliceBlue"
+                                    Cursor="Hand"
+                                    Background="AliceBlue"
+                                    Width="70"
+                                    Height="60"
+                                    Command="{Binding ShowDescriptionProjectCommand}">
+                                <StackPanel Margin="5">
+                                    <fa:ImageAwesome Icon="Solid_Info"
+                                                     Height="15"
+                                                     Margin="0 0 0 5"/>
+                                    <TextBlock Text="Подробнее"
+                                               HorizontalAlignment="Center"
+                                               FontSize="10"/>
+                                </StackPanel>
+                            </Button>
+                            <Button BorderBrush="AliceBlue"
+                                    Cursor="Hand"
+                                    Background="AliceBlue"
+                                    Width="70"
+                                    Height="60"
+                                    Command="{Binding OpenTaskProjectWindowCommand}">
+                                <StackPanel Margin="5">
+                                    <fa:ImageAwesome Icon="Solid_Tasks"
+                                                     Height="15"
+                                                     Margin="0 0 0 5"/>
+                                    <TextBlock Text="Список"
+                                               HorizontalAlignment="Center"
+                                               FontSize="10"/>
+                                    <TextBlock Text="задач"
+                                               HorizontalAlignment="Center"
+                                               FontSize="10"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1"
+                          Margin="10">
+                        <DataGrid Background="White"
+                                  ItemsSource="{Binding Projects, UpdateSourceTrigger=PropertyChanged}"
+                                  AutoGenerateColumns="False"
+                                  SelectedItem="{Binding SelectedProject}"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Наименование"
+                                                    Width="300"
+                                                    Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Дата начала"
+                                                    Width="*"
+                                                    Binding="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"/>    
+                                <DataGridTextColumn Header="Дата завершения"
+                                                    Width="*"
+                                                    Binding="{Binding EndDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                                <DataGridTextColumn Header="Статус"
+                                                    Width="100"
+                                                    Binding="{Binding Status}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+            </TabItem>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Grid.Column="0"
-              Background="#ececee">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="1"
-                        Margin="10">
-                <Button Height="30"
-                        Content="Добавить проект"
-                        Background="White"
-                        BorderBrush="Black"
-                        Margin="0 0 0 5"
-                        Cursor="Hand">
-                </Button>
-                <Button Height="30"
-                        Content="Редактировать проект"
-                        Background="White"
-                        BorderBrush="Black"
-                        Margin="0 0 0 5"
-                        Cursor="Hand"/>
-                <Button Height="30"
-                        Content="Удалить проект"
-                        Background="White"
-                        BorderBrush="Black"
-                        Margin="0 0 0 5"
-                        Cursor="Hand"
-                        Command="{Binding DeleteProjectCommand}"/>
-                <Button Height="30"
-                        Content="Описание проекта"
-                        Background="White"
-                        BorderBrush="Black"
-                        Margin="0 0 0 5"
-                        Cursor="Hand"/>
-                <Button Height="30"
-                        Content="Создать задачу"
-                        Background="White"
-                        BorderBrush="Black"
-                        Margin="0 0 0 5"
-                        Cursor="Hand"/>
-                <Button Height="30"
-                        Content="Просмотреть список задач"
-                        Background="White"
-                        BorderBrush="Black"
-                        Margin="0 0 0 5"
-                        Cursor="Hand"/>
-                <Button Height="30"
-                        Content="Создать отчет"
-                        Background="White"
-                        BorderBrush="Black"
-                        Margin="0 0 0 5"
-                        Cursor="Hand"/>
-            </StackPanel>
-        </Grid>
-
-        <GridSplitter Grid.Column="1"
-                      Width="3"
-                      Background="#ececee"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Stretch"/>
-        
-        <Grid Grid.Column="2"
-              Background="#e7e7ea">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0"
-                        Margin="10 25 0 0 "
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-                <TextBlock Text="Поиск:"
-                           Width="40"
-                           VerticalAlignment="Bottom"/>
-                <TextBox Width="150"
-                         Height="20"
-                         VerticalContentAlignment="Center"/>
-            </StackPanel>
-            <DataGrid Grid.Row="1"
-                      Margin="10"
-                      ItemsSource="{Binding Projects, UpdateSourceTrigger=PropertyChanged}"
-                      AutoGenerateColumns="False"
-                      SelectedItem="{Binding SelectedProject}"
-                      IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Наименование"
-                                        Width="190"
-                                        Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Дата начала"
-                                        Width="*"
-                                        Binding="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                    <DataGridTextColumn Header="Дата завершения"
-                                        Width="*"
-                                        Binding="{Binding EndDate}"/>
-                    <DataGridTextColumn Header="Статус"
-                                        Width="80"
-                                        Binding="{Binding EndDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+            <TabItem Header="Сотрудники" Height="20" VerticalAlignment="Bottom">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0"
+                          Background="AliceBlue">
+                        <StackPanel Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Margin="10 5 10 5">
+                            <Button BorderBrush="AliceBlue"
+                                    Cursor="Hand"
+                                    Background="AliceBlue"
+                                    Width="70"
+                                    Height="60"
+                                    Command="{Binding OpenAddUserWindowCommand}">
+                                <StackPanel Margin="5">
+                                    <fa:ImageAwesome Icon="Solid_Plus"
+                                                         Height="15"
+                                                         Margin="0 0 0 5"/>
+                                    <TextBlock Text="Добавить"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="10"/>
+                                </StackPanel>
+                            </Button>
+                            <Button BorderBrush="AliceBlue"
+                                    Cursor="Hand"
+                                    Background="AliceBlue"
+                                    Width="85"
+                                    Height="60"
+                                    Command="{Binding OpenEditUserWindowCommand}">
+                                <StackPanel Margin="5">
+                                    <fa:ImageAwesome Icon="Solid_Edit"
+                                                         Height="15"
+                                                         Margin="0 0 0 5"/>
+                                    <TextBlock Text="Редактировать"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="10"/>
+                                </StackPanel>
+                            </Button>
+                            <Button BorderBrush="AliceBlue"
+                                    Cursor="Hand"
+                                    Background="AliceBlue"
+                                    Width="70"
+                                    Height="60"
+                                    Command="{Binding DeleteUserCommand}">
+                                <StackPanel Margin="5">
+                                    <fa:ImageAwesome Icon="Solid_Trash"
+                                                         Height="15"
+                                                         Margin="0 0 0 5"/>
+                                    <TextBlock Text="Удалить"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="10"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1"
+                          Margin="10">
+                        <DataGrid Background="White"
+                                  ItemsSource="{Binding Users, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding SelectedUser}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ФИО"
+                                                    Width="190"
+                                                    Binding="{Binding FullName}"/>
+                                <DataGridTextColumn Header="Почта"
+                                                    Width="*"
+                                                    Binding="{Binding Email}"/>          
+                                <DataGridTextColumn Header="Номер телефона"
+                                                    Width="*"
+                                                    Binding="{Binding Phone}"/>
+                                <DataGridTextColumn Header="Должность"
+                                                    Width="*"
+                                                    Binding="{Binding Position}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

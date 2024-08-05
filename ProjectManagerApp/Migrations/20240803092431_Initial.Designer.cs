@@ -12,7 +12,7 @@ using ProjectManagerApp.Data;
 namespace ProjectManagerApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240803050157_Initial")]
+    [Migration("20240803092431_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace ProjectManagerApp.Migrations
 
             modelBuilder.Entity("ProjectManagerApp.Model.Comment", b =>
                 {
-                    b.Property<int>("CommentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateCreate")
                         .HasColumnType("datetime2");
@@ -49,7 +49,7 @@ namespace ProjectManagerApp.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("CommentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
@@ -62,11 +62,11 @@ namespace ProjectManagerApp.Migrations
 
             modelBuilder.Entity("ProjectManagerApp.Model.Project", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -86,18 +86,18 @@ namespace ProjectManagerApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ProjectId");
+                    b.HasKey("Id");
 
                     b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("ProjectManagerApp.Model.Report", b =>
                 {
-                    b.Property<int>("ReportId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -113,7 +113,7 @@ namespace ProjectManagerApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ReportId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
@@ -122,11 +122,11 @@ namespace ProjectManagerApp.Migrations
 
             modelBuilder.Entity("ProjectManagerApp.Model.TaskProject", b =>
                 {
-                    b.Property<int>("TaskProjectId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskProjectId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AssignedUserId")
                         .HasColumnType("int");
@@ -151,7 +151,7 @@ namespace ProjectManagerApp.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("TaskProjectId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AssignedUserId");
 
@@ -162,11 +162,11 @@ namespace ProjectManagerApp.Migrations
 
             modelBuilder.Entity("ProjectManagerApp.Model.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -188,7 +188,7 @@ namespace ProjectManagerApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });

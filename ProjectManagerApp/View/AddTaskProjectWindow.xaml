@@ -1,20 +1,20 @@
-﻿<Window x:Class="ProjectManagerApp.View.AddProjectWindow"
+﻿<Window x:Class="ProjectManagerApp.View.AddTaskProjectWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjectManagerApp"
+        xmlns:local="clr-namespace:ProjectManagerApp.View"
         xmlns:vm="clr-namespace:ProjectManagerApp.ViewModel"
         mc:Ignorable="d"
         Title="{Binding Title}" 
         ResizeMode="NoResize"
         Width="500"
-        Height="385">
+        Height="455">
     <Window.DataContext>
-        <vm:AddProjectViewModel/>
+        <vm:AddTaskProjectViewModel/>
     </Window.DataContext>
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
@@ -27,7 +27,7 @@
             <TextBox Height="30"
                      Margin="0 0 0 5"
                      VerticalContentAlignment="Center"
-                     Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding TaskName, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Описание"/>
             <TextBox Height="100"
@@ -35,7 +35,7 @@
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Visible"
                      Margin="0 0 0 10"
-                     Text="{Binding ProjectDescription, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding TaskDescription, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -66,6 +66,11 @@
                             SelectedDate="{Binding EndDate, 
                             UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
+            <ComboBox Height="30"
+                      Margin="0 0 0 10"
+                      ItemsSource="{Binding Users}"
+                      SelectedItem="{Binding AssignedUser}"
+                      VerticalContentAlignment="Center"/>
 
         </StackPanel>
         <Grid Grid.Row="2"
@@ -76,7 +81,8 @@
                     Content="Создать проект"
                     BorderBrush="Black"
                     Cursor="Hand"
-                    Command="{Binding AddProjectCommand}"/>
+                    Command="{Binding AddTaskProjectCommand}"/>
         </Grid>
     </Grid>
 </Window>
+

@@ -1,0 +1,129 @@
+﻿<Window x:Class="ProjectManagerApp.View.TaskProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectManagerApp.View"
+        xmlns:vm="clr-namespace:ProjectManagerApp.ViewModel"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        mc:Ignorable="d"
+        Title="{Binding Title}" 
+        Height="500" 
+        Width="800"
+        ResizeMode="NoResize">
+    <Window.DataContext>
+        <vm:TaskProjectViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Background="AliceBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="10 5 10 5">
+                    <Button BorderBrush="AliceBlue"
+                        Cursor="Hand"
+                        Background="AliceBlue"
+                        Width="70"
+                        Height="60"
+                        Command="{Binding OpenAddTaskProjectWindowCommand}">
+                        <StackPanel Margin="5">
+                            <fa:ImageAwesome Icon="Solid_Plus"
+                                         Height="15"
+                                         Margin="0 0 0 5"/>
+                            <TextBlock Text="Добавить"
+                               HorizontalAlignment="Center"
+                               FontSize="10"/>
+                        </StackPanel>
+                    </Button>
+                    <Button BorderBrush="AliceBlue"
+                        Cursor="Hand"
+                        Background="AliceBlue"
+                        Width="85"
+                        Height="60"
+                        Command="{Binding OpenEditTaskProjectWindowCommand}">
+                        <StackPanel Margin="5">
+                            <fa:ImageAwesome Icon="Solid_Edit"
+                                         Height="15"
+                                         Margin="0 0 0 5"/>
+                            <TextBlock Text="Редактировать"
+                               HorizontalAlignment="Center"
+                               FontSize="10"/>
+                        </StackPanel>
+                    </Button>
+                    <Button BorderBrush="AliceBlue"
+                        Cursor="Hand"
+                        Background="AliceBlue"
+                        Width="70"
+                        Height="60"
+                        Command="{Binding DeleteTaskProjectCommand}">
+                        <StackPanel Margin="5">
+                            <fa:ImageAwesome Icon="Solid_Trash"
+                                         Height="15"
+                                         Margin="0 0 0 5"/>
+                            <TextBlock Text="Удалить"
+                               HorizontalAlignment="Center"
+                               FontSize="10"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Margin="10 5 10 5">
+                <Button BorderBrush="AliceBlue"
+                    Cursor="Hand"
+                    Background="AliceBlue"
+                    Width="70"
+                    Height="60"
+                    Command="{Binding ShowDescriptionTaskProjectCommand}">
+                    <StackPanel Margin="5">
+                        <fa:ImageAwesome Icon="Solid_Info"
+                                     Height="15"
+                                     Margin="0 0 0 5"/>
+                        <TextBlock Text="Подробнее"
+                               HorizontalAlignment="Center"
+                               FontSize="10"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1"
+          Margin="10">
+            <DataGrid Background="White"
+                  ItemsSource="{Binding TaskProjects, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedTaskProject}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Наименование"
+                                        Width="200"
+                                        Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Дата начала"
+                                        Width="*"
+                                        Binding="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"/>          
+                    <DataGridTextColumn Header="Дата завершения"
+                                        Width="*"
+                                        Binding="{Binding EndDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                    <DataGridTextColumn Header="Сотрудник"
+                                        Width="*"
+                                        Binding="{Binding AssignedUser}"/>
+                    <DataGridTextColumn Header="Стату"
+                                        Width="100"
+                                        Binding="{Binding Status}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>

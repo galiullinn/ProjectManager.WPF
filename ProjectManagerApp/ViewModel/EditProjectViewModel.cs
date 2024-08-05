@@ -1,25 +1,25 @@
 ﻿using ProjectManagerApp.Infrastructure.Commands;
 using ProjectManagerApp.Model;
-using ProjectManagerApp.Repositories;
-using ProjectManagerApp.View;
 using ProjectManagerApp.Data;
+using ProjectManagerApp.Repositories;
 using ProjectManagerApp.ViewModel.Base;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows;
+using ProjectManagerApp.View;
 
 namespace ProjectManagerApp.ViewModel
 {
-    internal class AddProjectViewModel : ViewModelBase
+    internal class EditProjectViewModel : ViewModelBase
     {
-        private string _title = "Добавить новый проект";
+        private string _title = "Редактировать проект";
         private string _projectName;
         private string _projectDescription;
         private DateTime _startDate;
         private DateTime _endDate;
+        private StatusProject _statusProject;
 
         private readonly ProjectRepository _projectRepository;
-        private ObservableCollection<Project> _projects;
 
         public string Title
         {
@@ -43,53 +43,59 @@ namespace ProjectManagerApp.ViewModel
         }
         public DateTime EndDate
         {
-            get => _endDate; 
+            get => _endDate;
             set => SetProperty(ref _endDate, value);
         }
-        public ObservableCollection<Project> Projects
+        public StatusProject StatusProject
         {
-            get => _projects;
-            set => SetProperty(ref _projects, value);
+            get => _statusProject;
+            set => SetProperty(ref _statusProject, value);
         }
 
-        public ICommand AddProjectCommand { get; }
-        public event EventHandler ProjectAdded;
+        public IEnumerable<StatusProject> Statuses => Enum.GetValues(typeof(StatusProject)).Cast<StatusProject>();
 
-        public AddProjectViewModel()
+        public ICommand SaveProjectCommand { get; }
+        public event EventHandler ProjectSaved;
+
+        public EditProjectViewModel(Project project)
         {
             _projectRepository = new ProjectRepository(new ApplicationContext());
-            AddProjectCommand = new RelayCommand(async _ => await AddProject());
-            Task.Run(async () => await LoadPoject());
+            ProjectName = project.Name;
+            ProjectDescription = project.Description;
+            StartDate = project.StartDate;
+            EndDate = project.EndDate;
+            StatusProject = project.Status;
+
+            SaveProjectCommand = new RelayCommand(async _ => await SaveProject(project.Id));
         }
 
-        private async Task LoadPoject()
+        public EditProjectViewModel()
         {
-            var projects = await _projectRepository.GetAll();
-            Projects = new ObservableCollection<Project>(projects);
+
         }
 
-        private async Task AddProject()
+        private async Task SaveProject(int projectId)
         {
-            if (!string.IsNullOrWhiteSpace(ProjectName) && 
+            if (!string.IsNullOrWhiteSpace(ProjectName) &&
                 !string.IsNullOrWhiteSpace(ProjectDescription) &&
                 StartDate < EndDate)
             {
-                var project = new Project()
+                var project = new Project
                 {
+                    Id = projectId,
                     Name = ProjectName,
                     Description = ProjectDescription,
                     StartDate = StartDate,
                     EndDate = EndDate,
-                    Status = StatusProject.InProgress
+                    Status = StatusProject
                 };
 
-                await _projectRepository.Add(project);
-                await LoadPoject();
-                ProjectAdded?.Invoke(this, EventArgs.Empty);
+                await _projectRepository.Update(project);
+                ProjectSaved?.Invoke(this, EventArgs.Empty);
 
                 Close();
 
-                MessageBox.Show("Проект добавлен.",
+                MessageBox.Show("Проект обновлен.",
                     "Успешно!",
                     MessageBoxButton.OK,
                     MessageBoxImage.Asterisk);
@@ -102,7 +108,7 @@ namespace ProjectManagerApp.ViewModel
         }
         private void Close()
         {
-            Application.Current.Windows.OfType<AddProjectWindow>().FirstOrDefault()?.Close();
+            Application.Current.Windows.OfType<EditProjectWindow>().FirstOrDefault()?.Close();
         }
     }
 }
